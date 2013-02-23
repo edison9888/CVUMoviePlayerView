@@ -28,7 +28,7 @@
         [self initVideoPlayerPlaceholderViewWithFrame:frame placeholderImage:placeholderImage];
         [self addSubview:_placeholderView];
         
-        // Setup the player controller and add it's view as a subview:
+        // Setup the player controller and add its view as a subview:
         [self initMoviePlayerControllerWithFrame:frame videoURL:videoURL];
     }
     return self;
@@ -51,7 +51,7 @@
 
 - (void)initMoviePlayerControllerWithFrame:(CGRect)frame videoURL:(NSURL*)videoURL {
     self.moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:videoURL];
-    self.moviePlayerController.view.frame = CGRectMake(0.0f, 0.0f, 200.0f, 200.0f);
+    self.moviePlayerController.view.frame = CGRectMake(0.0f, 0.0f, frame.size.width, frame.size.height);
     self.moviePlayerController.view.center = self.center;
 }
 
@@ -76,14 +76,15 @@
     
     CGSize playButtonSize = CGSizeMake(50, 50);
     CGRect playButtonFrame = CGRectMake((frame.size.width - playButtonSize.width) / 2, (frame.size.height - playButtonSize.height) / 2, playButtonSize.width , playButtonSize.height ) ;
-    _placeholderPlayVideoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _placeholderPlayVideoButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _placeholderPlayVideoButton.frame = playButtonFrame;
     [_placeholderPlayVideoButton addTarget:self action:@selector(didPushVideoPlayButton:) forControlEvents:UIControlEventTouchDown];
     [_placeholderView addSubview:_placeholderPlayVideoButton];
 }
 
 #pragma mark - respond to actions
-- (void)didPushVideoPlayButton:(id)sender {    
+- (void)didPushVideoPlayButton:(id)sender {
+    self.moviePlayerController.view.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     [self addSubview:self.moviePlayerController.view];
     [self.moviePlayerController play];
 }
