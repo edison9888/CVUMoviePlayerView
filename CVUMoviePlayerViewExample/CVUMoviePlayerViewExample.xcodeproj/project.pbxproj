@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E55F54A716DA768E00583740 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E55F54A616DA768E00583740 /* LICENSE */; };
 		E5FAD49016D94CF30094DC2A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FAD48F16D94CF30094DC2A /* UIKit.framework */; };
 		E5FAD49216D94CF30094DC2A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FAD49116D94CF30094DC2A /* Foundation.framework */; };
 		E5FAD49416D94CF30094DC2A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5FAD49316D94CF30094DC2A /* CoreGraphics.framework */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E55F54A616DA768E00583740 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		E5FAD48C16D94CF30094DC2A /* CVUMoviePlayerViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CVUMoviePlayerViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5FAD48F16D94CF30094DC2A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		E5FAD49116D94CF30094DC2A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,6 +70,7 @@
 				E5FAD49516D94CF30094DC2A /* CVUMoviePlayerViewExample */,
 				E5FAD48E16D94CF30094DC2A /* Frameworks */,
 				E5FAD48D16D94CF30094DC2A /* Products */,
+				E55F54A616DA768E00583740 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -185,6 +188,7 @@
 				E5FAD4A616D94CF30094DC2A /* Default-568h@2x.png in Resources */,
 				E5FAD4AC16D94CF30094DC2A /* ViewController_iPhone.xib in Resources */,
 				E5FAD4AF16D94CF30094DC2A /* ViewController_iPad.xib in Resources */,
+				E55F54A716DA768E00583740 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
