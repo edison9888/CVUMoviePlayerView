@@ -25,6 +25,13 @@ NSURL* videoURL = [NSURL URLWithString:@"https://devimages.apple.com.edgekey.net
 CVUMoviePlayerView* moviePlayerView = [[CVUMoviePlayerView alloc] initWithFrame:frame videoURL:videoURL];
 [self.view addSubview:moviePlayerView];
 ```
+
+This is what it looks like:
+
+[![Example Usage of the CVUMoviePLayerView](https://raw.github.com/ursachec/CVUMoviePlayerView/master/example.png)](#app)
+
+
+
 ## Advanced Usage
 
 You can provide a placeholder image upon initialization. 
