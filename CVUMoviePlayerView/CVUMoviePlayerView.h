@@ -22,6 +22,7 @@
 //	THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface CVUMoviePlayerView : UIView
 
@@ -29,6 +30,7 @@
 @property(nonatomic, strong, readonly) UIImageView* placeholderImageView;
 @property(nonatomic, strong, readonly) UIButton* placeholderPlayVideoButton;
 @property(nonatomic, strong, readwrite) UIImage* placeholderImage;
+@property(nonatomic, strong, readonly) MPMoviePlayerController* moviePlayerController;
 
 /**
  * <#add description#>
