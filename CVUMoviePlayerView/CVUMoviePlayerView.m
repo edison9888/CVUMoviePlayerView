@@ -23,7 +23,10 @@
 
 #import "CVUMoviePlayerView.h"
 
+NSString * const CVUMoviePlayerViewDidShowLoadingStateLabel = @"CVUMoviePlayerViewDidShowLoadingStateLabelNotification";
+
 @interface CVUMoviePlayerView ()
+@property(nonatomic, strong, readwrite) UILabel* loadingStateLabel;
 @property(nonatomic, strong, readwrite) UIView* placeholderView;
 @property(nonatomic, strong, readwrite) UIImageView* placeholderImageView;
 @property(nonatomic, strong, readwrite) UIButton* placeholderPlayVideoButton;
@@ -81,6 +84,7 @@
 
 - (void)cleanupMoviePlayerControllerInstance {
     [self pauseVideo];
+    [self deregisterForNotificationsFromMoviePlayer:self.moviePlayerController];
     [self.moviePlayerController.view removeFromSuperview];
     self.moviePlayerController = nil;
 }
@@ -110,6 +114,11 @@
     [_placeholderPlayVideoButton addTarget:self action:@selector(didPushVideoPlayButton:) forControlEvents:UIControlEventTouchDown];
     [_placeholderPlayVideoButton setImage:playButtonImage forState:UIControlStateNormal];
     [_placeholderView addSubview:_placeholderPlayVideoButton];
+    
+    CGSize loadingStateLabelSize = CGSizeMake(CGRectGetWidth(placeholderImageViewFrame), 20.0f);
+    CGRect loadingStateFrame = CGRectMake(CGRectGetMinX(placeholderImageViewFrame), (frame.size.height - loadingStateLabelSize.height) / 2, loadingStateLabelSize.width, loadingStateLabelSize.height);
+    self.loadingStateLabel = [[UILabel alloc] initWithFrame:loadingStateFrame];
+    self.loadingStateLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 #pragma mark - respond to actions
@@ -119,13 +128,70 @@
     [self playVideo];
 }
 
+#pragma mark - loading state label
+
+
 #pragma mark - video actions
 - (void)playVideo {
+    [self registerForNotificationsFromMoviePlayer:self.moviePlayerController];
     [self.moviePlayerController play];
+    [self addSubview:self.loadingStateLabel];
 }
 
 - (void)pauseVideo {
     [self.moviePlayerController pause];
+}
+
+
+#pragma mark - autorotation
+
+-(void)registerForNotificationsFromMoviePlayer:(MPMoviePlayerController*)moviePlayer {
+    if (nil == moviePlayer) {
+        return;
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notification_moviePlayerLoadStateDidChange:)
+                                                 name:MPMoviePlayerLoadStateDidChangeNotification
+                                               object:moviePlayer];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notification_moviePlayerPlaybackStateDidChange:)
+                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:moviePlayer];
+}
+
+-(void)deregisterForNotificationsFromMoviePlayer:(MPMoviePlayerController*)moviePlayer {
+    if (nil == moviePlayer) {
+        return;
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:moviePlayer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerLoadStateDidChangeNotification object:moviePlayer];
+}
+
+- (void)notification_moviePlayerLoadStateDidChange:(NSNotification*)notification {
+    MPMoviePlayerController* moviePlayer = notification.object;
+    MPMovieLoadState loadState = moviePlayer.loadState;
+    
+    NSString* moviePlayerLoadStateText = [self labelTextForMoviePlayerLoadState:loadState];
+    if (loadState == MPMoviePlaybackStatePlaying) {
+        [self.loadingStateLabel removeFromSuperview];
+    }
+}
+
+- (void)notification_moviePlayerPlaybackStateDidChange:(NSNotification*)notification {
+    MPMoviePlayerController* moviePlayer = notification.object;
+    MPMoviePlaybackState playbackState = moviePlayer.playbackState;
+    MPMovieLoadState loadState = moviePlayer.loadState;
+    
+    BOOL isMoviePlayable = (loadState == (MPMovieLoadStatePlaythroughOK|MPMovieLoadStatePlayable));
+    if (NO == isMoviePlayable && (playbackState == MPMoviePlaybackStatePlaying)) {
+        [self addSubview:self.loadingStateLabel];
+        [[NSNotificationCenter defaultCenter] postNotificationName:CVUMoviePlayerViewDidShowLoadingStateLabel object:self];
+    }
+}
+
+- (NSString*)labelTextForMoviePlayerLoadState:(MPMovieLoadState)loadState {
+    return @"loading";
 }
 
 @end

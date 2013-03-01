@@ -24,8 +24,10 @@
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface CVUMoviePlayerView : UIView
+extern NSString * const CVUMoviePlayerViewDidShowLoadingStateLabel;
 
+@interface CVUMoviePlayerView : UIView
+@property(nonatomic, strong, readonly) UILabel* loadingStateLabel;
 @property(nonatomic, strong, readonly) UIView* placeholderView;
 @property(nonatomic, strong, readonly) UIImageView* placeholderImageView;
 @property(nonatomic, strong, readonly) UIButton* placeholderPlayVideoButton;
