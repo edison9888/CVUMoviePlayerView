@@ -172,8 +172,9 @@ NSString * const CVUMoviePlayerViewDidShowLoadingStateLabel = @"CVUMoviePlayerVi
     MPMoviePlayerController* moviePlayer = notification.object;
     MPMovieLoadState loadState = moviePlayer.loadState;
     
+    BOOL isMoviePlayable = (loadState == (MPMovieLoadStatePlaythroughOK|MPMovieLoadStatePlayable));
     NSString* moviePlayerLoadStateText = [self labelTextForMoviePlayerLoadState:loadState];
-    if (loadState == MPMoviePlaybackStatePlaying) {
+    if (isMoviePlayable) {
         [self.loadingStateLabel removeFromSuperview];
     }
 }
